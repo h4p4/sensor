@@ -1,0 +1,318 @@
+{
+  "description": "ИДК-10",
+  "manufacturer_id": 24803,
+  "device_type": 58289,
+  "device_version": 1,
+  "hart": {
+    "parameters": [
+      {
+        "name": "Измеренное значение тока 4 мА",
+        "index": 10,
+        "type": 16,
+        "freq": 0,
+        "scale": 1
+      },
+      {
+        "name": "Концентрация",
+        "index": 1,
+        "type": 16,
+        "freq": 4,
+        "scale": 1
+      },
+      {
+        "name": "Единица измерения концентрации",
+        "index": 39,
+        "type": 1,
+        "freq": 0,
+        "scale": 1
+      },
+      {
+        "name": "Команда",
+        "index": 8,
+        "type": 3,
+        "freq": 0,
+        "scale": 1
+      },
+      {
+        "name": "Аварии",
+        "index": 3,
+        "type": 3,
+        "freq": 3,
+        "scale": 1
+      },
+      {
+        "name": "Предупреждения",
+        "index": 4,
+        "type": 3,
+        "freq": 3,
+        "scale": 1
+      }
+    ],
+    "commands": [
+      {
+        "command": 45,
+        "transactions": [
+          {
+            "request": {
+              "data": [],
+              "params": [ 10 ]
+            },
+            "answer": {
+              "data": [],
+              "params": [ 10 ]
+            }
+          }
+        ],
+        "errors": [ 4, 3, 9, 7, 5 ]
+      },
+      {
+        "command": 82,
+        "transactions": [
+          {
+            "request": {
+              "data": [ 0, 57, 1 ],
+              "params": [ 44 ]
+            },
+            "answer": {
+              "data": [ 0, 57, 1 ],
+              "params": [ 44 ]
+            }
+          },
+          {
+            "request": {
+              "data": [ 0, 57, 2 ],
+              "params": [ 45 ]
+            },
+            "answer": {
+              "data": [ 0, 57, 2 ],
+              "params": [ 45 ]
+            }
+          }
+        ],
+        "errors": [ 4, 3, 14, 33, 34, 32, 18, 17, 2, 5 ]
+      },
+      {
+        "command": 160,
+        "transactions": [
+          {
+            "request": {
+              "data": [ 0, 0 ],
+              "params": []
+            },
+            "answer": {
+              "data": [ 0, 0 ],
+              "params": [ 13 ]
+            }
+          },
+          {
+            "request": {
+              "data": [ 0, 3 ],
+              "params": []
+            },
+            "answer": {
+              "data": [ 0, 3 ],
+              "params": [ 5 ]
+            }
+          },
+          {
+            "request": {
+              "data": [ 0, 4 ],
+              "params": []
+            },
+            "answer": {
+              "data": [ 0, 4 ],
+              "params": [ 6 ]
+            }
+          }
+        ],
+        "errors": [
+          2,
+          5
+        ]
+      }
+    ],
+    "sequences": [
+      {
+        "sequence": 1,
+        "params": [
+          {
+            "param": 8,
+            "source": 0,
+            "value": 11
+          }
+        ]
+      },
+      {
+        "sequence": 3,
+        "params": [
+          {
+            "param": 9,
+            "source": 0,
+            "value": 0
+          },
+          {
+            "param": 5,
+            "source": 1
+          },
+          {
+            "param": 6,
+            "source": 1
+          },
+          {
+            "param": 7,
+            "source": 1
+          },
+          {
+            "param": 9,
+            "source": 0,
+            "value": 1
+          }
+        ]
+      }
+    ],
+    "views": [
+      {
+        "caption": "Общие",
+        "on_show_action": 0,
+        "on_hide_action": 0,
+        "margins": [ 5, 5, 5, 5 ],
+        "spacing": 5,
+        "controls": [
+          {
+            "type": 5,
+            "text": "Температура датчика, ?С",
+            "value": 2,
+            "freq": 3
+          }
+        ],
+        "actions": []
+      },
+      {
+        "caption": "Настройка\nизмерения",
+        "on_show_action": 1,
+        "on_hide_action": 0,
+        "margins": [ 5, 5, 5, 5 ],
+        "spacing": 5,
+        "controls": [
+          {
+            "type": 11,
+            "text": "Статус датчика",
+            "value": 47,
+            "freq": 3,
+            "default": "---",
+            "lines": [
+              {
+                "value": 0,
+                "text": "норма"
+              },
+              {
+                "value": 1,
+                "text": "---"
+              }
+            ]
+          },
+          {
+            "type": 2,
+            "header": "Корректировка нуля",
+            "margins": [ 10, 5, 10, 5 ],
+            "spacing": 5,
+            "controls": [
+              {
+                "type": 1,
+                "text": "Для корректировки нуля подайте на датчик смесь воздух/азот"
+              },
+              {
+                "type": 3,
+                "margins": [ 0, 5, 0, 5 ],
+                "spacing": 10,
+                "controls": [
+                  {
+                    "type": 6,
+                    "text": "Начать коррекцию",
+                    "action": 2,
+                    "enabled": 49152
+                  },
+                  {
+                    "type": 4,
+                    "margins": [ 5, 5, 5, 5 ],
+                    "spacing": 10,
+                    "controls": [
+                      {
+                        "type": 11,
+                        "text": "Статус",
+                        "value": 49154,
+                        "freq": 0,
+                        "default": "завершено с ошибкой",
+                        "lines": [
+                          {
+                            "value": 0,
+                            "text": "выполнено успешно"
+                          },
+                          {
+                            "value": 65535,
+                            "text": "---"
+                          }
+                        ]
+                      },
+                      {
+                        "type": 5,
+                        "text": "Осталось, сек.",
+                        "value": 49156,
+                        "freq": 0
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "action": 1,
+            "type": 0,
+            "param": 49152,
+            "value": 1,
+            "execute": 0
+          },
+          {
+            "action": 4,
+            "type": 2,
+            "delay": 90,
+            "display": 49156,
+            "execute": 5
+          },
+
+          {
+            "action": 13,
+            "type": 0,
+            "param": 49152,
+            "value": 1,
+            "execute": 0
+          }
+        ]
+      },
+      {
+        "caption": "Пороги",
+        "on_show_action": 0,
+        "on_hide_action": 0,
+        "margins": [ 5, 5, 5, 5 ],
+        "spacing": 5,
+        "controls": [
+          {
+            "type": 9,
+            "text": "Порог 1, %НКПР",
+            "value": 5,
+            "freq": 1
+          },
+          {
+            "type": 10,
+            "text": "Блокировка порогов",
+            "value": 15,
+            "freq": 1
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+﻿<Application x:Class="WpfApp1.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WpfApp1"
+             StartupUri="Views/MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type DataGrid}" x:Key="BaseDataGrid">
+                <Setter Property="BorderBrush" Value="LightGray" />
+                <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
+                <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
+                <Setter Property="ColumnWidth" Value="*" />
+                <Setter Property="CanUserResizeColumns" Value="False" />
+                <Setter Property="CanUserResizeRows" Value="False" />
+                <Setter Property="CanUserReorderColumns" Value="False" />
+                <Setter Property="CanUserSortColumns" Value="True" />
+                <Setter Property="CanUserAddRows" Value="True" />
+                <Setter Property="IsReadOnly" Value="False" />
+                <Setter Property="AutoGenerateColumns" Value="True" />
+                <Setter Property="SelectionMode" Value="Extended" />
+                <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+                <Setter Property="MinRowHeight" Value="40" />
+                <Setter Property="HeadersVisibility" Value="Column" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+            <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource BaseDataGrid}" />
+
+            <Style x:Key="BaseButton" TargetType="{x:Type Button}">
+                <Setter Property="Height" Value="40" />
+                <Setter Property="Width" Value="40" />
+                <Setter Property="Margin" Value="5 5 5 5" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Height" Value="50" />
+                        <Setter Property="Width" Value="50" />
+                        <Setter Property="Margin" Value="5 0 -5 0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="TableEditIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5"/>
+                <Setter Property="Foreground" Value="#000000"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Viewbox>
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
+                                          Data="M21.7,13.35L20.7,14.35L18.65,12.3L19.65,11.3C19.86,11.08 20.21,11.08 20.42,11.3L21.7,12.58C21.92,12.79 21.92,13.14 21.7,13.35M12,18.94L18.07,12.88L20.12,14.93L14.06,21H12V18.94M4,2H18A2,2 0 0,1 20,4V8.17L16.17,12H12V16.17L10.17,18H4A2,2 0 0,1 2,16V4A2,2 0 0,1 4,2M4,6V10H10V6H4M12,6V10H18V6H12M4,12V16H10V12H4Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+            </Style>
+            <Style x:Key="DeleteIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Viewbox>
+                                <Canvas Width="24" Height="24" Background="#e5e5e5">
+                                    <Path Fill="#000000"
+                                          Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+                                </Canvas>
+                            </Viewbox>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+            </Style>
+
+            <Style x:Key="ContentSaveIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Viewbox>
+                                <Canvas Width="24" Height="24" Background="#e5e5e5">
+                                    <Path Fill="#000000"
+                                          Data="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
+                                </Canvas>
+                            </Viewbox>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
