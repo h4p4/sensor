@@ -9,7 +9,7 @@
 
     using WpfApp1.Views;
 
-    public class EditableViewModel : ViewModel
+    public abstract class EditableViewModel : ViewModel
     {
         private bool _isEditing;
 
@@ -28,13 +28,31 @@
         [JsonIgnore]
         public RelayCommand StartEditCommand { get; }
 
+        public abstract string GetTitle();
+
         protected virtual void Edit(object obj)
         {
             IsEditing = true;
 
-            var relators = obj is EditableViewModel viewModel ? viewModel.GetRelators() : GetRelators();
+            CollectionHeaderRelator[] relators;
+            var title = string.Empty;
+            if (obj is EditableViewModel viewModel)
+            {
+                relators = viewModel.GetRelators();
+                title = viewModel.GetTitle();
+            }
+            else
+            {
+                title = GetTitle();
+                relators = GetRelators();
+            }
 
-            new EditWindow(relators).ShowDialog();
+
+            new EditWindow(relators)
+            {
+                Title = string.Concat("Редактирование - ", $"{title.Replace('\n', ' ')}")
+            }.ShowDialog();
+
             IsEditing = false;
         }
 
@@ -44,7 +62,7 @@
         }
     }
 
-    public class ViewModel : INotifyPropertyChanged
+    public abstract class ViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

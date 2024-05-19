@@ -6,19 +6,18 @@
     using System.Windows.Data;
     using System.Windows.Media;
 
-    using WpfApp1.Helpers;
-    using WpfApp1.ViewModels;
-
-    public partial class EditWindow : Window
+    /// <summary>
+    /// Логика взаимодействия для EditControl.xaml
+    /// </summary>
+    public partial class EditControl : UserControl
     {
         private readonly CollectionHeaderRelator[] _relators;
 
-        public EditWindow(params CollectionHeaderRelator[] relators)
+        public EditControl(params CollectionHeaderRelator[] relators)
         {
             _relators = relators;
             InitializeComponent();
             InitializeData();
-
         }
 
         private void InitializeData()
@@ -73,7 +72,6 @@
                     Mode = BindingMode.TwoWay
                 };
 
-                //TODO:
                 //var isEnabledBinding = new Binding()
                 //{
                 //    Source = dataGrid, // элемент-источник
@@ -90,7 +88,8 @@
                     Background = Brushes.White
                 };
 
-                editButton.SetBinding(ButtonBase.CommandParameterProperty, commandParameterBinding); // установка привязки для элемента-приемника
+                editButton.SetBinding(ButtonBase.CommandParameterProperty,
+                    commandParameterBinding); // установка привязки для элемента-приемника
                 //editButton.SetBinding(ButtonBase.IsEnabledProperty, isEnabledBinding);
 
                 EditGrid.Children.Add(editButton);

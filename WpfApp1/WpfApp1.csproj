@@ -68,6 +68,9 @@
     <Compile Include="ViewModelToIntConverter.cs" />
     <Compile Include="Views\Convertor.cs" />
     <Compile Include="ViewModels\Other.cs" />
+    <Compile Include="Views\EditControl.xaml.cs">
+      <DependentUpon>EditControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,10 @@
     <Page Include="Resources\table-edit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditWindow.xaml">
       <SubType>Designer</SubType>

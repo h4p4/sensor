@@ -72,6 +72,11 @@ namespace WpfApp1.ViewModels
             get => _value;
             set => SetField(ref _value, value);
         }
+
+        public override string GetTitle()
+        {
+            return $"Действие {_actionId}";
+        }
     }
 
     public class Answer : EditableViewModel
@@ -90,15 +95,20 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<IntegerViewModel> Data
         {
             get => _data;
-            set => SetField(ref _data, value);
+            set => SetField(ref _data, value ?? new ObservableCollection<IntegerViewModel>());
         }
 
         [DisplayName("Параметры")]
         [JsonProperty("params")]
         public ObservableCollection<IntegerViewModel> Params
         {
-            get => _params;
-            set => SetField(ref _params, value);
+            get => _params ;
+            set => SetField(ref _params, value ?? new ObservableCollection<IntegerViewModel>());
+        }
+
+        public override string GetTitle()
+        {
+            return "Ответ";
         }
     }
 
@@ -107,6 +117,12 @@ namespace WpfApp1.ViewModels
         private int _commandId;
         private ObservableCollection<IntegerViewModel> _errors;
         private ObservableCollection<Transaction> _transactions;
+
+        public Command()
+        {
+            Errors = new ObservableCollection<IntegerViewModel>();
+            Transactions = new ObservableCollection<Transaction>();
+        }
 
         [DisplayName("Команда")]
         [JsonProperty("command")]
@@ -121,14 +137,19 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<IntegerViewModel> Errors
         {
             get => _errors;
-            set => SetField(ref _errors, value);
+            set => SetField(ref _errors, value ?? new ObservableCollection<IntegerViewModel>());
         }
 
         [JsonProperty("transactions")]
         public ObservableCollection<Transaction> Transactions
         {
             get => _transactions;
-            set => SetField(ref _transactions, value);
+            set => SetField(ref _transactions, value ?? new ObservableCollection<Transaction>());
+        }
+
+        public override string GetTitle()
+        {
+            return $"Команда {_commandId}";
         }
 
         protected override CollectionHeaderRelator[] GetRelators()
@@ -156,6 +177,13 @@ namespace WpfApp1.ViewModels
         private string _header;
         private string _text;
 
+        public Control()
+        {
+            Controls = new ObservableCollection<Control>();
+            Margins = new ObservableCollection<IntegerViewModel>();
+            Lines = new ObservableCollection<Line>();
+        }
+
         [DisplayName("Действие")]
         [JsonProperty("action")]
         public int Action
@@ -168,7 +196,7 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<Control> Controls
         {
             get => _controls;
-            set => SetField(ref _controls, value);
+            set => SetField(ref _controls, value ?? new ObservableCollection<Control>());
         }
 
         [DisplayName("По умолчанию")]
@@ -207,7 +235,7 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<Line> Lines
         {
             get => _lines;
-            set => SetField(ref _lines, value);
+            set => SetField(ref _lines, value ?? new ObservableCollection<Line>());
         }
 
         [DisplayName("Отступы")]
@@ -215,7 +243,7 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<IntegerViewModel> Margins
         {
             get => _margins;
-            set => SetField(ref _margins, value);
+            set => SetField(ref _margins, value ?? new ObservableCollection<IntegerViewModel>());
         }
 
         [DisplayName("Расстояние")]
@@ -250,11 +278,16 @@ namespace WpfApp1.ViewModels
             set => SetField(ref _value, value);
         }
 
+        public override string GetTitle()
+        {
+            return $"Управление {Header}";
+        }
+
         protected override CollectionHeaderRelator[] GetRelators()
         {
             return new[]
             {
-                new CollectionHeaderRelator(_lines, StartEditCommand, "Линии"),
+                new CollectionHeaderRelator(_lines, null, "Линии"),
                 new CollectionHeaderRelator(_controls, StartEditCommand, "Управления"),
                 new CollectionHeaderRelator(_margins, null, "Отступы"),
             };
@@ -284,14 +317,14 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<Command> Commands
         {
             get => _commands;
-            set => SetField(ref _commands, value);
+            set => SetField(ref _commands, value ?? new ObservableCollection<Command>());
         }
 
         [JsonProperty("parameters")]
         public ObservableCollection<Parameter> Parameters
         {
             get => _parameters;
-            set => SetField(ref _parameters, value);
+            set => SetField(ref _parameters, value ?? new ObservableCollection<Parameter>());
         }
 
         [JsonIgnore]
@@ -326,14 +359,19 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<Sequence> Sequences
         {
             get => _sequences;
-            set => SetField(ref _sequences, value);
+            set => SetField(ref _sequences, value ?? new ObservableCollection<Sequence>());
         }
 
         [JsonProperty("views")]
         public ObservableCollection<View> Views
         {
             get => _views;
-            set => SetField(ref _views, value);
+            set => SetField(ref _views, value ?? new ObservableCollection<View>());
+        }
+
+        public override string GetTitle()
+        {
+            return "Датчик";
         }
     }
 
@@ -356,6 +394,11 @@ namespace WpfApp1.ViewModels
         {
             get => _value;
             set => SetField(ref _value, value);
+        }
+
+        public override string GetTitle()
+        {
+            return $"Линия {_text}";
         }
     }
 
@@ -387,6 +430,11 @@ namespace WpfApp1.ViewModels
         {
             get => _value;
             set => SetField(ref _value, value);
+        }
+
+        public override string GetTitle()
+        {
+            return $"Параметр {_paramId}";
         }
     }
 
@@ -437,6 +485,12 @@ namespace WpfApp1.ViewModels
             get => _type;
             set => SetField(ref _type, value);
         }
+
+        public override string GetTitle()
+        {
+            return $"Параметр {_index} {_name}";
+
+        }
     }
 
     public class Request : EditableViewModel
@@ -455,7 +509,7 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<IntegerViewModel> Data
         {
             get => _data;
-            set => SetField(ref _data, value);
+            set => SetField(ref _data, value ?? new ObservableCollection<IntegerViewModel>());
         }
 
         [DisplayName("Параметры")]
@@ -463,7 +517,12 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<IntegerViewModel> Params
         {
             get => _params;
-            set => SetField(ref _params, value);
+            set => SetField(ref _params, value ?? new ObservableCollection<IntegerViewModel>());
+        }
+
+        public override string GetTitle()
+        {
+            return $"Запрос";
         }
 
         protected override CollectionHeaderRelator[] GetRelators()
@@ -490,7 +549,7 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<Param> Params
         {
             get => _params;
-            set => SetField(ref _params, value);
+            set => SetField(ref _params, value ?? new ObservableCollection<Param>());
         }
 
         [DisplayName("Последовательность")]
@@ -499,6 +558,11 @@ namespace WpfApp1.ViewModels
         {
             get => _sequenceId;
             set => SetField(ref _sequenceId, value);
+        }
+
+        public override string GetTitle()
+        {
+            return $"Последовательность {_sequenceId}";
         }
 
         protected override CollectionHeaderRelator[] GetRelators()
@@ -530,14 +594,14 @@ namespace WpfApp1.ViewModels
         public Answer Answer
         {
             get => _answer;
-            set => SetField(ref _answer, value);
+            set => SetField(ref _answer, value ?? new Answer());
         }
 
         [JsonProperty("request")]
         public Request Request
         {
             get => _request;
-            set => SetField(ref _request, value);
+            set => SetField(ref _request, value ?? new Request());
         }
 
         [DisplayName("Транзакция")]
@@ -546,6 +610,11 @@ namespace WpfApp1.ViewModels
         {
             get => $"Транзакция №{_transactionNumber}";
             set => _viewName = value;
+        }
+
+        public override string GetTitle()
+        {
+            return $"Транзакция {_transactionNumber}";
         }
 
         protected override CollectionHeaderRelator[] GetRelators()
@@ -581,7 +650,7 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<Action> Actions
         {
             get => _actions;
-            set => SetField(ref _actions, value);
+            set => SetField(ref _actions, value ?? new ObservableCollection<Action>());
         }
 
         [DisplayName("Подпись")]
@@ -596,7 +665,7 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<Control> Controls
         {
             get => _controls;
-            set => SetField(ref _controls, value);
+            set => SetField(ref _controls, value ?? new ObservableCollection<Control>());
         }
 
         [DisplayName("Отступы")]
@@ -604,7 +673,7 @@ namespace WpfApp1.ViewModels
         public ObservableCollection<IntegerViewModel> Margins
         {
             get => _margins;
-            set => SetField(ref _margins, value);
+            set => SetField(ref _margins, value ?? new ObservableCollection<IntegerViewModel>());
         }
 
         [DisplayName("Действие при скрытии")]
@@ -629,6 +698,11 @@ namespace WpfApp1.ViewModels
         {
             get => _spacing;
             set => SetField(ref _spacing, value);
+        }
+
+        public override string GetTitle()
+        {
+            return $"Графический элемент {_caption}";
         }
 
         protected override CollectionHeaderRelator[] GetRelators()

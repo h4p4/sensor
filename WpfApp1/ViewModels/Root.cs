@@ -44,5 +44,10 @@
             get => _manufacturerId;
             set => SetField(ref _manufacturerId, value);
         }
+
+        public override string GetTitle()
+        {
+            return "Датчик";
+        }
     }
 }
