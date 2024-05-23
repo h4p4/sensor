@@ -8,6 +8,8 @@
 
     using Newtonsoft.Json;
 
+    using WpfApp1.ViewModels;
+
     using MessageBox = System.Windows.MessageBox;
 
     public partial class SensorInfo
@@ -24,14 +26,14 @@
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var saveFolder = GetSaveFolder();
+            var saveFolder = SaveHelper.GetSaveFolder();
             if (string.IsNullOrWhiteSpace(saveFolder))
             {
                 MessageBox.Show("Не выбрана папка сохранения!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            var json = JsonConvert.SerializeObject(DataContext);
+            var json = JsonConvert.SerializeObject(((MainViewModel)DataContext).Root);
 
             var saveFile = Path.Combine(saveFolder, $"json_{DateTime.Now:MMddHHmm}.json");
             File.WriteAllText(saveFile, json);
@@ -39,14 +41,7 @@
                             $"{saveFile}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private string GetSaveFolder()
-        {
-            var browserDialog = new FolderBrowserDialog();
-            var result = browserDialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.Abort)
-                return string.Empty;
-            return browserDialog.SelectedPath;
-        }
+
 
         private void DataGrid_OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {

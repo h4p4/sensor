@@ -1,9 +1,6 @@
 ﻿namespace WpfApp1
 {
     using System.Collections;
-    using System.Collections.ObjectModel;
-
-    using WpfApp1.ViewModels;
 
     public class CollectionHeaderRelator
     {

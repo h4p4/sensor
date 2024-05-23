@@ -8,7 +8,6 @@
 
     using Newtonsoft.Json;
 
-    using WpfApp1.Helpers;
     using WpfApp1.ViewModels;
     using WpfApp1.Views;
 
@@ -40,11 +39,15 @@
             {
                 var fileData = File.ReadAllText(fileName);
                 var root = JsonConvert.DeserializeObject<Root>(fileData);
-                State.Root = root;
                 var sensorInfo = new SensorInfo
                 {
-                    DataContext = root
+                    DataContext = new MainViewModel()
+                    {
+                        Root = root
+                    }
                 };
+
+                Logger.Instance.Enable();
                 sensorInfo.Show();
                 Close();
             }

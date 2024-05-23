@@ -17,6 +17,7 @@ namespace WpfApp1.ViewModels
         private int? _delay;
         private int? _display;
 
+        [UndoRedo]
         [DisplayName("Действие")]
         [JsonProperty("action")]
         public int ActionId
@@ -25,6 +26,7 @@ namespace WpfApp1.ViewModels
             set => SetField(ref _actionId, value);
         }
 
+        [UndoRedo]
         [DisplayName("Задержка")]
         [JsonProperty("delay")]
         public int? Delay
@@ -33,6 +35,7 @@ namespace WpfApp1.ViewModels
             set => SetField(ref _delay, value);
         }
 
+        [UndoRedo]
         [DisplayName("Отображение")]
         [JsonProperty("display")]
         public int? Display
@@ -41,6 +44,7 @@ namespace WpfApp1.ViewModels
             set => SetField(ref _display, value);
         }
 
+        [UndoRedo]
         [DisplayName("Выполнение")]
         [JsonProperty("execute")]
         public int Execute
@@ -48,7 +52,7 @@ namespace WpfApp1.ViewModels
             get => _execute;
             set => SetField(ref _execute, value);
         }
-
+        [UndoRedo]
         [DisplayName("Параметр")]
         [JsonProperty("param")]
         public int Param
@@ -56,7 +60,7 @@ namespace WpfApp1.ViewModels
             get => _param;
             set => SetField(ref _param, value);
         }
-
+        [UndoRedo]
         [DisplayName("Тип")]
         [JsonProperty("type")]
         public int Type
@@ -64,7 +68,7 @@ namespace WpfApp1.ViewModels
             get => _type;
             set => SetField(ref _type, value);
         }
-
+        [UndoRedo]
         [DisplayName("Значение")]
         [JsonProperty("value")]
         public int Value
@@ -123,7 +127,7 @@ namespace WpfApp1.ViewModels
             Errors = new ObservableCollection<IntegerViewModel>();
             Transactions = new ObservableCollection<Transaction>();
         }
-
+        [UndoRedo]
         [DisplayName("Команда")]
         [JsonProperty("command")]
         public int CommandId
@@ -183,7 +187,7 @@ namespace WpfApp1.ViewModels
             Margins = new ObservableCollection<IntegerViewModel>();
             Lines = new ObservableCollection<Line>();
         }
-
+        [UndoRedo]
         [DisplayName("Действие")]
         [JsonProperty("action")]
         public int Action
@@ -198,7 +202,7 @@ namespace WpfApp1.ViewModels
             get => _controls;
             set => SetField(ref _controls, value ?? new ObservableCollection<Control>());
         }
-
+        [UndoRedo]
         [DisplayName("По умолчанию")]
         [JsonProperty("default")]
         public string Default
@@ -206,7 +210,7 @@ namespace WpfApp1.ViewModels
             get => _default;
             set => SetField(ref _default, value);
         }
-
+        [UndoRedo]
         [DisplayName("Включено")]
         [JsonProperty("enabled")]
         public int Enabled
@@ -214,7 +218,7 @@ namespace WpfApp1.ViewModels
             get => _enabled;
             set => SetField(ref _enabled, value);
         }
-
+        [UndoRedo]
         [DisplayName("Частота")]
         [JsonProperty("freq")]
         public int Freq
@@ -222,7 +226,7 @@ namespace WpfApp1.ViewModels
             get => _freq;
             set => SetField(ref _freq, value);
         }
-
+        [UndoRedo]
         [DisplayName("Заголовок")]
         [JsonProperty("header")]
         public string Header
@@ -245,7 +249,7 @@ namespace WpfApp1.ViewModels
             get => _margins;
             set => SetField(ref _margins, value ?? new ObservableCollection<IntegerViewModel>());
         }
-
+        [UndoRedo]
         [DisplayName("Расстояние")]
         [JsonProperty("spacing")]
         public int? Spacing
@@ -253,7 +257,7 @@ namespace WpfApp1.ViewModels
             get => _spacing;
             set => SetField(ref _spacing, value);
         }
-
+        [UndoRedo]
         [DisplayName("Текст")]
         [JsonProperty("text")]
         public string Text
@@ -261,7 +265,7 @@ namespace WpfApp1.ViewModels
             get => _text;
             set => SetField(ref _text, value);
         }
-
+        [UndoRedo]
         [DisplayName("Тип")]
         [JsonProperty("type")]
         public int Type
@@ -269,7 +273,7 @@ namespace WpfApp1.ViewModels
             get => _type;
             set => SetField(ref _type, value);
         }
-
+        [UndoRedo]
         [DisplayName("Значение")]
         [JsonProperty("value")]
         public int Value
@@ -379,7 +383,7 @@ namespace WpfApp1.ViewModels
     {
         private int _value;
         private string _text;
-
+        [UndoRedo]
         [DisplayName("Текст")]
         [JsonProperty("text")]
         public string Text
@@ -387,7 +391,7 @@ namespace WpfApp1.ViewModels
             get => _text;
             set => SetField(ref _text, value);
         }
-
+        [UndoRedo]
         [DisplayName("Значение")]
         [JsonProperty("value")]
         public int Value
@@ -407,7 +411,7 @@ namespace WpfApp1.ViewModels
         private int _paramId;
         private int _source;
         private int _value;
-
+        [UndoRedo]
         [DisplayName("Параметр")]
         [JsonProperty("param")]
         public int ParamId
@@ -415,7 +419,7 @@ namespace WpfApp1.ViewModels
             get => _paramId;
             set => SetField(ref _paramId, value);
         }
-
+        [UndoRedo]
         [DisplayName("Источник")]
         [JsonProperty("source")]
         public int Source
@@ -423,7 +427,7 @@ namespace WpfApp1.ViewModels
             get => _source;
             set => SetField(ref _source, value);
         }
-
+        [UndoRedo]
         [DisplayName("Значение")]
         [JsonProperty("value")]
         public int Value
@@ -445,7 +449,7 @@ namespace WpfApp1.ViewModels
         private int _scale;
         private int _type;
         private string _name;
-
+        [UndoRedo]
         [DisplayName("Частота")]
         [JsonProperty("freq")]
         public int Freq
@@ -453,7 +457,7 @@ namespace WpfApp1.ViewModels
             get => _freq;
             set => SetField(ref _freq, value);
         }
-
+        [UndoRedo]
         [DisplayName("Индекс")]
         [JsonProperty("index")]
         public int Index
@@ -461,7 +465,7 @@ namespace WpfApp1.ViewModels
             get => _index;
             set => SetField(ref _index, value);
         }
-
+        [UndoRedo]
         [DisplayName("Наименование")]
         [JsonProperty("name")]
         public string Name
@@ -469,7 +473,7 @@ namespace WpfApp1.ViewModels
             get => _name;
             set => SetField(ref _name, value);
         }
-
+        [UndoRedo]
         [DisplayName("Масштаб")]
         [JsonProperty("scale")]
         public int Scale
@@ -477,7 +481,7 @@ namespace WpfApp1.ViewModels
             get => _scale;
             set => SetField(ref _scale, value);
         }
-
+        [UndoRedo]
         [DisplayName("Тип")]
         [JsonProperty("type")]
         public int Type
@@ -551,7 +555,7 @@ namespace WpfApp1.ViewModels
             get => _params;
             set => SetField(ref _params, value ?? new ObservableCollection<Param>());
         }
-
+        [UndoRedo]
         [DisplayName("Последовательность")]
         [JsonProperty("sequence")]
         public int SequenceId
@@ -652,7 +656,7 @@ namespace WpfApp1.ViewModels
             get => _actions;
             set => SetField(ref _actions, value ?? new ObservableCollection<Action>());
         }
-
+        [UndoRedo]
         [DisplayName("Подпись")]
         [JsonProperty("caption")]
         public string Caption
@@ -675,7 +679,7 @@ namespace WpfApp1.ViewModels
             get => _margins;
             set => SetField(ref _margins, value ?? new ObservableCollection<IntegerViewModel>());
         }
-
+        [UndoRedo]
         [DisplayName("Действие при скрытии")]
         [JsonProperty("on_hide_action")]
         public int OnHideAction
@@ -683,7 +687,7 @@ namespace WpfApp1.ViewModels
             get => _onHideAction;
             set => SetField(ref _onHideAction, value);
         }
-
+        [UndoRedo]
         [DisplayName("Действии при показе")]
         [JsonProperty("on_show_action")]
         public int OnShowAction
@@ -691,7 +695,7 @@ namespace WpfApp1.ViewModels
             get => _onShowAction;
             set => SetField(ref _onShowAction, value);
         }
-
+        [UndoRedo]
         [DisplayName("Расстояние")]
         [JsonProperty("spacing")]
         public int Spacing

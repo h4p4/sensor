@@ -10,7 +10,7 @@
         Title="Информация о датчике"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <viewModels:Root />
+        <viewModels:MainViewModel />
     </Window.DataContext>
     <Window.Resources>
         <local:Convertor x:Key="arrayToString" />
@@ -23,7 +23,12 @@
         </Style>-->
     </Window.Resources>
     <Grid>
-        <TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="0.5*" MaxHeight="300" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0"
+                    DataContext="{Binding Path=DataContext.Root, RelativeSource={RelativeSource AncestorType=Window}}">
             <TabItem Header="Датчик">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -51,15 +56,24 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Height="Auto">
+                    <WrapPanel Orientation="Horizontal" Height="Auto">
                         <!--<Button Style="{StaticResource TableEditIconButton}" Command="{Binding Hart.SelectedParameter.StartEditCommand}" />-->
                         <Button Style="{StaticResource ContentSaveIconButton}" Click="ButtonBase_OnClick" />
-                        <Button Style="{StaticResource DeleteIconButton}" />
-                    </StackPanel>
-                    <DataGrid ItemsSource="{Binding Hart.Parameters, UpdateSourceTrigger=PropertyChanged}"
+                        <Button Style="{StaticResource DeleteIconButton}" Command="Delete" />
+                        <Button Style="{StaticResource UndoIconButton}" Command="{Binding UndoCommand}" />
+                        <Button Style="{StaticResource RedoIconButton}" Command="{Binding RedoCommand}" />
+                        <Button Style="{StaticResource ExcelIconButton}" Command="{Binding GenerateExcelCommand}"
+                                CommandParameter="{Binding ElementName=ParametersDataGrid}" />
+                        <Button Style="{StaticResource PdfIconButton}" Command="{Binding GeneratePdfCommand}"
+                                CommandParameter="{Binding ElementName=ParametersDataGrid}" />
+                        <Button Style="{StaticResource WordIconButton}" Command="{Binding GenerateWordCommand}"
+                                CommandParameter="{Binding ElementName=ParametersDataGrid}" />
+                    </WrapPanel>
+                    <DataGrid x:Name="ParametersDataGrid"
+                              ItemsSource="{Binding Hart.Parameters, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding Hart.SelectedParameter}"
                               SelectionMode="Single" Grid.Row="1"
-                              AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn"/>
+                              AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" />
                 </Grid>
             </TabItem>
             <TabItem Header="Команды">
@@ -68,16 +82,25 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Height="Auto">
+                    <WrapPanel Orientation="Horizontal" Height="Auto">
                         <Button Style="{StaticResource TableEditIconButton}"
                                 Command="{Binding Hart.SelectedCommand.StartEditCommand}" />
                         <Button Style="{StaticResource ContentSaveIconButton}" Click="ButtonBase_OnClick" />
-                        <Button Style="{StaticResource DeleteIconButton}" />
-                    </StackPanel>
-                    <DataGrid ItemsSource="{Binding Hart.Commands, UpdateSourceTrigger=PropertyChanged}"
+                        <Button Style="{StaticResource DeleteIconButton}" Command="Delete" />
+                        <Button Style="{StaticResource UndoIconButton}" Command="{Binding UndoCommand}" />
+                        <Button Style="{StaticResource RedoIconButton}" Command="{Binding RedoCommand}" />
+                        <Button Style="{StaticResource ExcelIconButton}" Command="{Binding GenerateExcelCommand}"
+                                CommandParameter="{Binding ElementName=ParametersDataGrid}" />
+                        <Button Style="{StaticResource PdfIconButton}" Command="{Binding GeneratePdfCommand}"
+                                CommandParameter="{Binding ElementName=CommandsDataGrid}" />
+                        <Button Style="{StaticResource WordIconButton}" Command="{Binding GenerateWordCommand}"
+                                CommandParameter="{Binding ElementName=CommandsDataGrid}" />
+                    </WrapPanel>
+                    <DataGrid x:Name="CommandsDataGrid" 
+                              ItemsSource="{Binding Hart.Commands, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding Hart.SelectedCommand}"
                               SelectionMode="Single" Grid.Row="1"
-                              AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn"/>
+                              AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" />
                 </Grid>
             </TabItem>
             <TabItem Header="Последовательности">
@@ -86,16 +109,25 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Height="Auto">
+                    <WrapPanel Orientation="Horizontal" Height="Auto">
                         <Button Style="{StaticResource TableEditIconButton}"
                                 Command="{Binding Hart.SelectedSequence.StartEditCommand}" />
                         <Button Style="{StaticResource ContentSaveIconButton}" Click="ButtonBase_OnClick" />
-                        <Button Style="{StaticResource DeleteIconButton}" />
-                    </StackPanel>
-                    <DataGrid ItemsSource="{Binding Hart.Sequences, UpdateSourceTrigger=PropertyChanged}"
+                        <Button Style="{StaticResource DeleteIconButton}" Command="Delete" />
+                        <Button Style="{StaticResource UndoIconButton}" Command="{Binding UndoCommand}" />
+                        <Button Style="{StaticResource RedoIconButton}" Command="{Binding RedoCommand}" />
+                        <Button Style="{StaticResource ExcelIconButton}" Command="{Binding GenerateExcelCommand}"
+                                CommandParameter="{Binding ElementName=SequesDataGrid}" />
+                        <Button Style="{StaticResource PdfIconButton}" Command="{Binding GeneratePdfCommand}"
+                                CommandParameter="{Binding ElementName=SequesDataGrid}" />
+                        <Button Style="{StaticResource WordIconButton}" Command="{Binding GenerateWordCommand}"
+                                CommandParameter="{Binding ElementName=SequesDataGrid}" />
+                    </WrapPanel>
+                    <DataGrid x:Name="SequesDataGrid"  
+                              ItemsSource="{Binding Hart.Sequences, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding Hart.SelectedSequence}"
                               SelectionMode="Single" Grid.Row="1"
-                              AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn"/>
+                              AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" />
                 </Grid>
             </TabItem>
             <TabItem Header="Графические элементы">
@@ -104,18 +136,41 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Height="Auto">
+                    <WrapPanel Orientation="Horizontal" Height="Auto">
                         <Button Style="{StaticResource TableEditIconButton}"
                                 Command="{Binding Hart.SelectedView.StartEditCommand}" />
                         <Button Style="{StaticResource ContentSaveIconButton}" Click="ButtonBase_OnClick" />
-                        <Button Style="{StaticResource DeleteIconButton}" />
-                    </StackPanel>
-                    <DataGrid ItemsSource="{Binding Hart.Views, UpdateSourceTrigger=PropertyChanged}"
+                        <Button Style="{StaticResource DeleteIconButton}" Command="Delete" />
+                        <Button Style="{StaticResource UndoIconButton}" Command="{Binding UndoCommand}" />
+                        <Button Style="{StaticResource RedoIconButton}" Command="{Binding RedoCommand}" />
+                        <Button Style="{StaticResource ExcelIconButton}" Command="{Binding GenerateExcelCommand}"
+                                CommandParameter="{Binding ElementName=ViewsDataGrid}" />
+                        <Button Style="{StaticResource PdfIconButton}" Command="{Binding GeneratePdfCommand}"
+                                CommandParameter="{Binding ElementName=ViewsDataGrid}" />
+                        <Button Style="{StaticResource WordIconButton}" Command="{Binding GenerateWordCommand}"
+                                CommandParameter="{Binding ElementName=ViewsDataGrid}" />
+                    </WrapPanel>
+                    <DataGrid x:Name="ViewsDataGrid" 
+                              ItemsSource="{Binding Hart.Views, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding Hart.SelectedView}"
-                              SelectionMode="Single" Grid.Row="1" 
-                              AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn"/>
+                              SelectionMode="Single" Grid.Row="1"
+                              AutoGeneratingColumn="DataGrid_OnAutoGeneratingColumn" />
                 </Grid>
             </TabItem>
         </TabControl>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Logger.LogCollection}" >
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}"
+                       BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="DockPanel.Dock" Value="Bottom" />
+                    <Setter Property="IsHitTestVisible" Value="False" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel LastChildFill="False" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
     </Grid>
 </Window>

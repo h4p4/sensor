@@ -10,34 +10,34 @@
         private int _manufacturerId;
         private string _description;
 
+        [UndoRedo]
         [JsonProperty("description")]
         public string Description
         {
             get => _description;
             set => SetField(ref _description, value);
         }
-
+        [UndoRedo]
         [JsonProperty("device_type")]
         public int DeviceType
         {
             get => _deviceType;
             set => SetField(ref _deviceType, value);
         }
-
+        [UndoRedo]
         [JsonProperty("device_version")]
         public int DeviceVersion
         {
             get => _deviceVersion;
             set => SetField(ref _deviceVersion, value);
         }
-
         [JsonProperty("hart")]
         public Hart Hart
         {
             get => _hart;
             set => SetField(ref _hart, value);
         }
-
+        [UndoRedo]
         [JsonProperty("manufacturer_id")]
         public int ManufacturerId
         {
