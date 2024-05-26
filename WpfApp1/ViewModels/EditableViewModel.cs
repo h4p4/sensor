@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
+    using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
@@ -26,14 +27,13 @@
 
     public abstract class EditableViewModel : ViewModel
     {
-        private static bool isRedoProcess;
-        private static bool isUndoProcess;
+        private static bool _isRedoProcess;
+        private static bool _isUndoProcess;
 
-        private static Stack<(object Obj, string Prop, object OldValue)> redoHistory
+        private static Stack<(object Obj, string Prop, object OldValue)> _redoHistory
             = new Stack<(object Obj, string Prop, object OldValue)>();
 
-        private static Stack<(object Obj, string Prop, object OldValue)> undoHistory
-            = new Stack<(object Obj, string Prop, object OldValue)>();
+        private static Stack<(object Obj, string Prop, object OldValue)> _undoHistory = new();
 
         private bool _isEditing;
 
@@ -62,14 +62,14 @@
         }
 
         public static DelegateCommand RedoCommand { get; }
-            = new DelegateCommand(_ => Redo(), _ => redoHistory.Count > 0);
+            = new DelegateCommand(_ => Redo(), _ => _redoHistory.Count > 0);
 
         [JsonIgnore]
         public RelayCommand StartEditCommand { get; }
 
         [JsonIgnore]
         public static DelegateCommand UndoCommand { get; }
-            = new DelegateCommand(_ => Undo(), _ => undoHistory.Count > 0);
+            = new DelegateCommand(_ => Undo(), _ => _undoHistory.Count > 0);
 
         public static DataTable DataGridToDataTable(DataGrid dg)
         {
@@ -79,7 +79,7 @@
             ApplicationCommands.Copy.Execute(null, dg);
             dg.UnselectAllCells();
             var result = (string)Clipboard.GetData(DataFormats.CommaSeparatedValue);
-            var lines = result.Split(new[] { "\r\n", "\n" },
+            var lines = result.Split(new[] { "\r\n"/*, "\n"*/ },
                 StringSplitOptions.None);
             var fields = lines[0].Split(',');
             var cols = fields.GetLength(0);
@@ -90,6 +90,7 @@
             for (var i = 1; i < lines.GetLength(0) - 1; i++)
             {
                 fields = lines[i].Split(',');
+                cols = fields.GetLength(0);
                 var row = dt.NewRow();
                 for (var f = 0; f < cols; f++)
                     row[f] = fields[f];
@@ -100,7 +101,7 @@
         }
 
 
-        public void createPDF(DataTable dataTable, string destinationPath)
+        public void ExportToPdf(DataTable dataTable, string destinationPath)
         {
             var document = new iTextSharp.text.Document();
             var writer = PdfWriter.GetInstance(document, new FileStream(destinationPath, FileMode.Create));
@@ -254,9 +255,9 @@
 
         private static void ClearHistory()
         {
-            undoHistory.Clear();
+            _undoHistory.Clear();
             UndoCommand.RaiseCanExecuteChanged();
-            redoHistory.Clear();
+            _redoHistory.Clear();
             RedoCommand.RaiseCanExecuteChanged();
         }
 
@@ -285,18 +286,18 @@
 
         private static void Redo()
         {
-            if (redoHistory.Count == 0)
+            if (_redoHistory.Count == 0)
                 return;
-            var redo = redoHistory.Pop();
+            var redo = _redoHistory.Pop();
             RedoCommand.RaiseCanExecuteChanged();
             try
             {
-                isRedoProcess = true;
+                _isRedoProcess = true;
                 redo.Obj.GetType().GetProperty(redo.Prop).SetValue(redo.Obj, redo.OldValue);
             }
             finally
             {
-                isRedoProcess = false;
+                _isRedoProcess = false;
             }
         }
 
@@ -311,41 +312,41 @@
                     .Length == 0)
                 return;
 
-            if (isUndoProcess)
+            if (_isUndoProcess)
             {
-                redoHistory.Push((obj, propertyName, value));
+                _redoHistory.Push((obj, propertyName, value));
                 RedoCommand.RaiseCanExecuteChanged();
             }
-            else if (isRedoProcess)
+            else if (_isRedoProcess)
             {
-                undoHistory.Push((obj, propertyName, value));
+                _undoHistory.Push((obj, propertyName, value));
                 UndoCommand.RaiseCanExecuteChanged();
             }
             else
             {
-                undoHistory.Push((obj, propertyName, value));
+                _undoHistory.Push((obj, propertyName, value));
                 UndoCommand.RaiseCanExecuteChanged();
-                redoHistory.Clear();
+                _redoHistory.Clear();
                 RedoCommand.RaiseCanExecuteChanged();
             }
         }
 
         private static void Undo()
         {
-            if (undoHistory.Count == 0)
+            if (_undoHistory.Count == 0)
                 return;
-            var undo = undoHistory.Pop();
+            var undo = _undoHistory.Pop();
             UndoCommand.RaiseCanExecuteChanged();
             // Обернуто для того чтобы в случае исключения флаг всё равно снимался
             try
             {
-                isUndoProcess = true;
+                _isUndoProcess = true;
 
                 undo.Obj.GetType().GetProperty(undo.Prop)?.SetValue(undo.Obj, undo.OldValue);
             }
             finally
             {
-                isUndoProcess = false;
+                _isUndoProcess = false;
             }
         }
 
@@ -366,7 +367,7 @@
 
             var folderPath = SaveHelper.GetSaveFolder();
             var filePath = Path.Combine(folderPath, $"report_{DateTime.Now:MMddHHmm}.pdf");
-            createPDF(dataTable, filePath);
+            ExportToPdf(dataTable, filePath);
         }
 
         private void GenerateWord(object obj)
