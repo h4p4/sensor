@@ -65,6 +65,9 @@
             set => SetField(ref _manufacturerId, value);
         }
 
+        [JsonIgnore]
+        public bool WasSaved { get; set; }
+
         public override string GetTitle()
         {
             return $"Датчик {Id}";

@@ -49,9 +49,12 @@
         [JsonIgnore]
         public static DelegateCommand ClearHistoryCommand { get; }
             = new DelegateCommand(_ => ClearHistory());
+        [JsonIgnore]
 
         public RelayCommand GenerateExcelCommand { get; set; }
+        [JsonIgnore]
         public RelayCommand GeneratePdfCommand { get; set; }
+        [JsonIgnore]
         public RelayCommand GenerateWordCommand { get; set; }
 
         [JsonIgnore]
@@ -61,6 +64,7 @@
             set => SetField(ref _isEditing, value);
         }
 
+        [JsonIgnore]
         public static DelegateCommand RedoCommand { get; }
             = new DelegateCommand(_ => Redo(), _ => _redoHistory.Count > 0);
 

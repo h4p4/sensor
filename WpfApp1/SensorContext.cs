@@ -32,7 +32,8 @@
                 $"Port={settings.Port};" +
                 $"Database={settings.DatabaseName};" +
                 $"Username={settings.DatabaseUserName};" +
-                $"password={settings.Password}");
+                $"Password={settings.Password};" +
+                $"Include Error Detail=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,19 +42,15 @@
             {
                 entity.ToTable("sensors", "sensor");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .UseIdentityAlwaysColumn();
-
                 entity.Property(e => e.SensorData)
                     .IsRequired()
                     .HasColumnType("character varying");
 
-                entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.Sensor)
-                    .HasForeignKey<Sensor>(d => d.Id)
+                entity.HasOne(d => d.UserCreator)
+                    .WithMany(p => p.Sensors)
+                    .HasForeignKey(d => d.UserCreatorId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("sensors_Id_fkey");
+                    .HasConstraintName("sensors_UserCreatorId_fkey");
             });
 
             modelBuilder.Entity<User>(entity =>

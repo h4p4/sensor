@@ -56,6 +56,7 @@
                 var root = JsonConvert.DeserializeObject<Root>(sensor.SensorData);
                 root.Id = sensor.Id;
                 vm.Roots.Add(root);
+                root.WasSaved = true;
             }
         }
 
