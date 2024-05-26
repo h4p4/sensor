@@ -22,9 +22,9 @@
 
         public bool IsEnabled { get; private set; }
 
-        public void Enable()
+        public void Enable(bool enable = true)
         {
-            IsEnabled = true;
+            IsEnabled = enable;
         }
 
         public void AddViewModel(EditableViewModel viewModel)

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConnectionSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DatabaseName>Sensor</DatabaseName>
+  <DatabaseUserName>postgres</DatabaseUserName>
+  <Host>localhost</Host>
+  <Password>postgres</Password>
+  <Port>5432</Port>
+</ConnectionSettings>

@@ -4,7 +4,6 @@
     using System.IO;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Forms;
 
     using Newtonsoft.Json;
 
@@ -14,11 +13,6 @@
 
     public partial class SensorInfo
     {
-        //private EditCommand _editCommand;
-        //private EditForm _editForm;
-        //private EditSeque _editSeque;
-        //private ViewData _viewData;
-
         public SensorInfo()
         {
             InitializeComponent();
@@ -40,7 +34,6 @@
             MessageBox.Show("Файл сохранен успешно по пути:\n" +
                             $"{saveFile}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
 
 
         private void DataGrid_OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
