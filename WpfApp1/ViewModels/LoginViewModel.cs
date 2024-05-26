@@ -32,6 +32,8 @@
             }
         }
 
+        public LoginWindow Window { get; set; }
+
         private void Login(object obj)
         {
             if (obj is not PasswordBox passwordBox)
@@ -46,7 +48,8 @@
                 MessageBox.Show("Неверный логин или пароль.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            Application.Current.Windows.OfType<LoginWindow>().FirstOrDefault()?.Close();
+
+            Window.DialogResult = true;
         }
     }
 }

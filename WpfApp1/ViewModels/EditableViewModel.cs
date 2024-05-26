@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
-    using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
@@ -27,18 +26,19 @@
 
     public abstract class EditableViewModel : ViewModel
     {
-        private static bool _isRedoProcess;
-        private static bool _isUndoProcess;
-
-        private static Stack<(object Obj, string Prop, object OldValue)> _redoHistory
-            = new Stack<(object Obj, string Prop, object OldValue)>();
-
-        private static Stack<(object Obj, string Prop, object OldValue)> _undoHistory = new();
-
         private bool _isEditing;
+        private bool _isRedoProcess;
+        private bool _isUndoProcess;
+        private Stack<(object Obj, string Prop, object OldValue)> _redoHistory;
+        private Stack<(object Obj, string Prop, object OldValue)> _undoHistory;
 
         public EditableViewModel()
         {
+            _redoHistory = new Stack<(object Obj, string Prop, object OldValue)>();
+            _undoHistory = new Stack<(object Obj, string Prop, object OldValue)>();
+            UndoCommand = new DelegateCommand(_ => Undo(), _ => _undoHistory.Count > 0);
+            RedoCommand = new DelegateCommand(_ => Redo(), _ => _redoHistory.Count > 0);
+            ClearHistoryCommand = new DelegateCommand(_ => ClearHistory());
             StartEditCommand = new RelayCommand(Edit);
             GenerateExcelCommand = new RelayCommand(GenerateExcel);
             GeneratePdfCommand = new RelayCommand(GeneratePdf);
@@ -47,13 +47,14 @@
         }
 
         [JsonIgnore]
-        public static DelegateCommand ClearHistoryCommand { get; }
-            = new DelegateCommand(_ => ClearHistory());
-        [JsonIgnore]
+        public DelegateCommand ClearHistoryCommand { get; set; }
 
+        [JsonIgnore]
         public RelayCommand GenerateExcelCommand { get; set; }
+
         [JsonIgnore]
         public RelayCommand GeneratePdfCommand { get; set; }
+
         [JsonIgnore]
         public RelayCommand GenerateWordCommand { get; set; }
 
@@ -65,15 +66,13 @@
         }
 
         [JsonIgnore]
-        public static DelegateCommand RedoCommand { get; }
-            = new DelegateCommand(_ => Redo(), _ => _redoHistory.Count > 0);
+        public DelegateCommand RedoCommand { get; set; }
 
         [JsonIgnore]
         public RelayCommand StartEditCommand { get; }
 
         [JsonIgnore]
-        public static DelegateCommand UndoCommand { get; }
-            = new DelegateCommand(_ => Undo(), _ => _undoHistory.Count > 0);
+        public DelegateCommand UndoCommand { get; set; }
 
         public static DataTable DataGridToDataTable(DataGrid dg)
         {
@@ -83,7 +82,7 @@
             ApplicationCommands.Copy.Execute(null, dg);
             dg.UnselectAllCells();
             var result = (string)Clipboard.GetData(DataFormats.CommaSeparatedValue);
-            var lines = result.Split(new[] { "\r\n"/*, "\n"*/ },
+            var lines = result.Split(new[] { "\r\n" /*, "\n"*/ },
                 StringSplitOptions.None);
             var fields = lines[0].Split(',');
             var cols = fields.GetLength(0);
@@ -220,19 +219,22 @@
 
             CollectionHeaderRelator[] relators;
             var title = string.Empty;
+            EditableViewModel vm;
             if (obj is EditableViewModel viewModel)
             {
                 relators = viewModel.GetRelators();
                 title = viewModel.GetTitle();
+                vm = viewModel;
             }
             else
             {
                 title = GetTitle();
                 relators = GetRelators();
+                vm = this;
             }
 
 
-            new EditWindow(relators)
+            new EditWindow(vm, relators)
             {
                 Title = string.Concat("Редактирование - ", $"{title.Replace('\n', ' ')}")
             }.ShowDialog();
@@ -255,14 +257,6 @@
             field = value;
             OnPropertyChanged(propertyName);
             return true;
-        }
-
-        private static void ClearHistory()
-        {
-            _undoHistory.Clear();
-            UndoCommand.RaiseCanExecuteChanged();
-            _redoHistory.Clear();
-            RedoCommand.RaiseCanExecuteChanged();
         }
 
         private static void ExportToExcel(DataTable dataTable)
@@ -288,70 +282,12 @@
             wb.Activate();
         }
 
-        private static void Redo()
+        private void ClearHistory()
         {
-            if (_redoHistory.Count == 0)
-                return;
-            var redo = _redoHistory.Pop();
-            RedoCommand.RaiseCanExecuteChanged();
-            try
-            {
-                _isRedoProcess = true;
-                redo.Obj.GetType().GetProperty(redo.Prop).SetValue(redo.Obj, redo.OldValue);
-            }
-            finally
-            {
-                _isRedoProcess = false;
-            }
-        }
-
-        private static void SaveHistory(object obj, string propertyName, object value)
-        {
-            if (!Logger.Instance.IsEnabled)
-                return;
-
-            if (obj.GetType()
-                    .GetProperty(propertyName)?
-                    .GetCustomAttributes(typeof(UndoRedoAttribute), true)
-                    .Length == 0)
-                return;
-
-            if (_isUndoProcess)
-            {
-                _redoHistory.Push((obj, propertyName, value));
-                RedoCommand.RaiseCanExecuteChanged();
-            }
-            else if (_isRedoProcess)
-            {
-                _undoHistory.Push((obj, propertyName, value));
-                UndoCommand.RaiseCanExecuteChanged();
-            }
-            else
-            {
-                _undoHistory.Push((obj, propertyName, value));
-                UndoCommand.RaiseCanExecuteChanged();
-                _redoHistory.Clear();
-                RedoCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        private static void Undo()
-        {
-            if (_undoHistory.Count == 0)
-                return;
-            var undo = _undoHistory.Pop();
+            _undoHistory.Clear();
             UndoCommand.RaiseCanExecuteChanged();
-            // Обернуто для того чтобы в случае исключения флаг всё равно снимался
-            try
-            {
-                _isUndoProcess = true;
-
-                undo.Obj.GetType().GetProperty(undo.Prop)?.SetValue(undo.Obj, undo.OldValue);
-            }
-            finally
-            {
-                _isUndoProcess = false;
-            }
+            _redoHistory.Clear();
+            RedoCommand.RaiseCanExecuteChanged();
         }
 
         private void GenerateExcel(object obj)
@@ -393,6 +329,72 @@
 
             dataGrid = null;
             return false;
+        }
+
+        private void Redo()
+        {
+            if (_redoHistory.Count == 0)
+                return;
+            var redo = _redoHistory.Pop();
+            RedoCommand.RaiseCanExecuteChanged();
+            try
+            {
+                _isRedoProcess = true;
+                redo.Obj.GetType().GetProperty(redo.Prop).SetValue(redo.Obj, redo.OldValue);
+            }
+            finally
+            {
+                _isRedoProcess = false;
+            }
+        }
+
+        private void SaveHistory(object obj, string propertyName, object value)
+        {
+            if (!Logger.Instance.IsEnabled)
+                return;
+
+            if (obj.GetType()
+                    .GetProperty(propertyName)?
+                    .GetCustomAttributes(typeof(UndoRedoAttribute), true)
+                    .Length == 0)
+                return;
+
+            if (_isUndoProcess)
+            {
+                _redoHistory.Push((obj, propertyName, value));
+                RedoCommand.RaiseCanExecuteChanged();
+            }
+            else if (_isRedoProcess)
+            {
+                _undoHistory.Push((obj, propertyName, value));
+                UndoCommand.RaiseCanExecuteChanged();
+            }
+            else
+            {
+                _undoHistory.Push((obj, propertyName, value));
+                UndoCommand.RaiseCanExecuteChanged();
+                _redoHistory.Clear();
+                RedoCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private void Undo()
+        {
+            if (_undoHistory.Count == 0)
+                return;
+            var undo = _undoHistory.Pop();
+            UndoCommand.RaiseCanExecuteChanged();
+            // Обернуто для того чтобы в случае исключения флаг всё равно снимался
+            try
+            {
+                _isUndoProcess = true;
+
+                undo.Obj.GetType().GetProperty(undo.Prop)?.SetValue(undo.Obj, undo.OldValue);
+            }
+            finally
+            {
+                _isUndoProcess = false;
+            }
         }
     }
 

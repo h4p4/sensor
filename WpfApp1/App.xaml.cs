@@ -49,7 +49,6 @@
             var sensors = dbSensors;
             var vm = new MainViewModel();
             sensorWindow.DataContext = vm;
-
             sensorWindow.Show();
             foreach (var sensor in sensors)
             {
@@ -58,6 +57,8 @@
                 vm.Roots.Add(root);
                 root.WasSaved = true;
             }
+
+            Logger.Instance.Enable();
         }
 
         private SensorContext GetContext()
@@ -95,7 +96,11 @@
         private User GetCurrentUser()
         {
             var logWindow = new LoginWindow();
-            logWindow.ShowDialog();
+            var dataContext = (LoginViewModel)logWindow.DataContext;
+            dataContext.Window = logWindow;
+            if (logWindow.ShowDialog() != true)
+                return null;
+
             var viewModel = (LoginViewModel)logWindow.DataContext;
             if (viewModel.User == null)
                 return GetCurrentUser();

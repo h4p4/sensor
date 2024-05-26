@@ -44,6 +44,9 @@
                         <Button Style="{StaticResource FromJsonButton}" Command="{Binding ReadFromJsonCommand}" />
                         <WrapPanel Orientation="Horizontal" Height="Auto" 
                                    DataContext="{Binding Path=DataContext.Root, RelativeSource={RelativeSource AncestorType=Window}}">
+                            <Button Style="{StaticResource ContentSaveIconButton}" Click="ButtonBase_OnClick" />
+                            <Button Style="{StaticResource UndoIconButton}" Command="{Binding UndoCommand}" />
+                            <Button Style="{StaticResource RedoIconButton}" Command="{Binding RedoCommand}" />
                             <Button Style="{StaticResource ExcelIconButton}" Command="{Binding GenerateExcelCommand}"
                                     CommandParameter="{Binding ElementName=RootDataGrid}" />
                             <Button Style="{StaticResource PdfIconButton}" Command="{Binding GeneratePdfCommand}"

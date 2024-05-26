@@ -58,8 +58,8 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000"
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}" >
+                                    <Path Fill="{TemplateBinding Foreground}"
                                           Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
                                 </Canvas>
                             </Viewbox>
@@ -71,12 +71,14 @@
             </Style>
 
             <Style x:Key="ContentSaveIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5" />
+                <Setter Property="Foreground" Value="#000000" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000"
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
                                           Data="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
                                 </Canvas>
                             </Viewbox>
@@ -87,12 +89,14 @@
             </Style>
 
             <Style x:Key="UndoIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5" />
+                <Setter Property="Foreground" Value="#000000" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000"
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
                                           Data="M12.5,8C9.85,8 7.45,9 5.6,10.6L2,7V16H11L7.38,12.38C8.77,11.22 10.54,10.5 12.5,10.5C16.04,10.5 19.05,12.81 20.1,16L22.47,15.22C21.08,11.03 17.15,8 12.5,8Z" />
                                 </Canvas>
                             </Viewbox>
@@ -102,12 +106,14 @@
                 </Setter>
             </Style>
             <Style x:Key="RedoIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5" />
+                <Setter Property="Foreground" Value="#000000" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000"
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
                                           Data="M18.4,10.6C16.55,9 14.15,8 11.5,8C6.85,8 2.92,11.03 1.54,15.22L3.9,16C4.95,12.81 7.95,10.5 11.5,10.5C13.45,10.5 15.23,11.22 16.62,12.38L13,16H22V7L18.4,10.6Z" />
                                 </Canvas>
                             </Viewbox>
@@ -117,12 +123,14 @@
                 </Setter>
             </Style>
             <Style x:Key="ExcelIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5" />
+                <Setter Property="Foreground" Value="#000000" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000"
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
                                           Data="M21.17 3.25Q21.5 3.25 21.76 3.5 22 3.74 22 4.08V19.92Q22 20.26 21.76 20.5 21.5 20.75 21.17 20.75H7.83Q7.5 20.75 7.24 20.5 7 20.26 7 19.92V17H2.83Q2.5 17 2.24 16.76 2 16.5 2 16.17V7.83Q2 7.5 2.24 7.24 2.5 7 2.83 7H7V4.08Q7 3.74 7.24 3.5 7.5 3.25 7.83 3.25M7 13.06L8.18 15.28H9.97L8 12.06L9.93 8.89H8.22L7.13 10.9L7.09 10.96L7.06 11.03Q6.8 10.5 6.5 9.96 6.25 9.43 5.97 8.89H4.16L6.05 12.08L4 15.28H5.78M13.88 19.5V17H8.25V19.5M13.88 15.75V12.63H12V15.75M13.88 11.38V8.25H12V11.38M13.88 7V4.5H8.25V7M20.75 19.5V17H15.13V19.5M20.75 15.75V12.63H15.13V15.75M20.75 11.38V8.25H15.13V11.38M20.75 7V4.5H15.13V7Z" />
                                 </Canvas>
                             </Viewbox>
@@ -132,12 +140,14 @@
                 </Setter>
             </Style>
             <Style x:Key="PdfIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5" />
+                <Setter Property="Foreground" Value="#000000" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000"
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
                                           Data="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M9.5 11.5C9.5 12.3 8.8 13 8 13H7V15H5.5V9H8C8.8 9 9.5 9.7 9.5 10.5V11.5M14.5 13.5C14.5 14.3 13.8 15 13 15H10.5V9H13C13.8 9 14.5 9.7 14.5 10.5V13.5M18.5 10.5H17V11.5H18.5V13H17V15H15.5V9H18.5V10.5M12 10.5H13V13.5H12V10.5M7 10.5H8V11.5H7V10.5Z" />
                                 </Canvas>
                             </Viewbox>
@@ -147,12 +157,14 @@
                 </Setter>
             </Style>
             <Style x:Key="WordIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5" />
+                <Setter Property="Foreground" Value="#000000" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000"
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
                                           Data="M21.17 3.25Q21.5 3.25 21.76 3.5 22 3.74 22 4.08V19.92Q22 20.26 21.76 20.5 21.5 20.75 21.17 20.75H7.83Q7.5 20.75 7.24 20.5 7 20.26 7 19.92V17H2.83Q2.5 17 2.24 16.76 2 16.5 2 16.17V7.83Q2 7.5 2.24 7.24 2.5 7 2.83 7H7V4.08Q7 3.74 7.24 3.5 7.5 3.25 7.83 3.25M7.03 11.34L8.23 15.28H9.6L10.91 8.72H9.53L8.75 12.6L7.64 8.85H6.5L5.31 12.62L4.53 8.72H3.09L4.4 15.28H5.77M20.75 19.5V17H8.25V19.5M20.75 15.75V12.63H12V15.75M20.75 11.38V8.25H12V11.38M20.75 7V4.5H8.25V7Z" />
                                 </Canvas>
                             </Viewbox>
@@ -162,12 +174,14 @@
                 </Setter>
             </Style>
             <Style x:Key="SaveDbButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5" />
+                <Setter Property="Foreground" Value="#000000" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000"
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
                                           Data="M12,3C7.58,3 4,4.79 4,7C4,9.21 7.58,11 12,11C12.5,11 13,10.97 13.5,10.92V9.5H16.39L15.39,8.5L18.9,5C17.5,3.8 14.94,3 12,3M18.92,7.08L17.5,8.5L20,11H15V13H20L17.5,15.5L18.92,16.92L23.84,12M4,9V12C4,14.21 7.58,16 12,16C13.17,16 14.26,15.85 15.25,15.63L16.38,14.5H13.5V12.92C13,12.97 12.5,13 12,13C7.58,13 4,11.21 4,9M4,14V17C4,19.21 7.58,21 12,21C14.94,21 17.5,20.2 18.9,19L17,17.1C15.61,17.66 13.9,18 12,18C7.58,18 4,16.21 4,14Z" />
                                 </Canvas>
                             </Viewbox>
@@ -176,12 +190,15 @@
                 </Setter>
             </Style>
             <Style x:Key="FromJsonButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5" />
+                <Setter Property="Foreground" Value="#000000" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000" Data="M5 3C3.9 3 3 3.9 3 5S2.1 7 1 7V9C2.1 9 3 9.9 3 11S3.9 13 5 13H7V11H5V10C5 8.9 4.1 8 3 8C4.1 8 5 7.1 5 6V5H7V3M11 3C12.1 3 13 3.9 13 5S13.9 7 15 7V9C13.9 9 13 9.9 13 11S12.1 13 11 13H9V11H11V10C11 8.9 11.9 8 13 8C11.9 8 11 7.1 11 6V5H9V3H11M22 6V18C22 19.11 21.11 20 20 20H4C2.9 20 2 19.11 2 18V15H4V18H20V6H17.03V4H20C21.11 4 22 4.89 22 6Z" />
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
+                                          Data="M5 3C3.9 3 3 3.9 3 5S2.1 7 1 7V9C2.1 9 3 9.9 3 11S3.9 13 5 13H7V11H5V10C5 8.9 4.1 8 3 8C4.1 8 5 7.1 5 6V5H7V3M11 3C12.1 3 13 3.9 13 5S13.9 7 15 7V9C13.9 9 13 9.9 13 11S12.1 13 11 13H9V11H11V10C11 8.9 11.9 8 13 8C11.9 8 11 7.1 11 6V5H9V3H11M22 6V18C22 19.11 21.11 20 20 20H4C2.9 20 2 19.11 2 18V15H4V18H20V6H17.03V4H20C21.11 4 22 4.89 22 6Z" />
                                 </Canvas>
                             </Viewbox>
                         </ControlTemplate>
@@ -189,12 +206,15 @@
                 </Setter>
             </Style>
             <Style x:Key="RemoveDbButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
+                <Setter Property="Background" Value="#e5e5e5" />
+                <Setter Property="Foreground" Value="#000000" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Viewbox>
-                                <Canvas Width="24" Height="24" Background="#e5e5e5">
-                                    <Path Fill="#000000" Data="M15.46,15.88L16.88,14.46L19,16.59L21.12,14.47L22.53,15.88L20.41,18L22.54,20.12L21.12,21.54L19,19.41L16.88,21.53L15.47,20.12L17.59,18L15.46,15.88M12,3C16.42,3 20,4.79 20,7C20,9.21 16.42,11 12,11C7.58,11 4,9.21 4,7C4,4.79 7.58,3 12,3M4,9C4,11.21 7.58,13 12,13C16.42,13 20,11.21 20,9V12.08L19,12C16.41,12 14.2,13.64 13.36,15.94L12,16C7.58,16 4,14.21 4,12V9M4,14C4,16.21 7.58,18 12,18H13C13,19.05 13.27,20.04 13.75,20.9L12,21C7.58,21 4,19.21 4,17V14Z" />
+                                <Canvas Width="24" Height="24" Background="{TemplateBinding Background}">
+                                    <Path Fill="{TemplateBinding Foreground}"
+                                          Data="M15.46,15.88L16.88,14.46L19,16.59L21.12,14.47L22.53,15.88L20.41,18L22.54,20.12L21.12,21.54L19,19.41L16.88,21.53L15.47,20.12L17.59,18L15.46,15.88M12,3C16.42,3 20,4.79 20,7C20,9.21 16.42,11 12,11C7.58,11 4,9.21 4,7C4,4.79 7.58,3 12,3M4,9C4,11.21 7.58,13 12,13C16.42,13 20,11.21 20,9V12.08L19,12C16.41,12 14.2,13.64 13.36,15.94L12,16C7.58,16 4,14.21 4,12V9M4,14C4,16.21 7.58,18 12,18H13C13,19.05 13.27,20.04 13.75,20.9L12,21C7.58,21 4,19.21 4,17V14Z" />
                                 </Canvas>
                             </Viewbox>
                         </ControlTemplate>

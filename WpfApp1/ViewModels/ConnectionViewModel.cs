@@ -83,7 +83,6 @@
                 return;
             _settings.SaveCurrent();
             window.DialogResult = true;
-            //Application.Current.Windows.OfType<ConnectionWindow>().FirstOrDefault()?.Close();
         }
     }
 }

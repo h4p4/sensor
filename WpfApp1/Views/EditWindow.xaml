@@ -14,19 +14,6 @@
             <Setter Property="ColumnWidth" Value="Auto" />
         </Style>
     </Window.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                  VerticalScrollBarVisibility="Disabled">
-        <Grid x:Name="EditGrid">
-            <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>-->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <!--<DataGrid Grid.Row="1" />-->
-            <!--<TextBlock Text="Ответы" Grid.Column="0"/>-->
-        </Grid>
-    </ScrollViewer>
+
+    <TabControl x:Name="EditTabControl"/>
 </Window>

@@ -6,12 +6,16 @@
     using System.Windows.Data;
     using System.Windows.Media;
 
+    using WpfApp1.ViewModels;
+
     public partial class EditWindow : Window
     {
         private readonly CollectionHeaderRelator[] _relators;
+        private readonly EditableViewModel _viewModel;
 
-        public EditWindow(params CollectionHeaderRelator[] relators)
+        public EditWindow(EditableViewModel viewModel, params CollectionHeaderRelator[] relators)
         {
+            _viewModel = viewModel;
             _relators = relators;
             InitializeComponent();
             InitializeData();
@@ -26,34 +30,84 @@
 
             foreach (var relator in _relators)
             {
-                EditGrid.ColumnDefinitions.Add(new ColumnDefinition
+                var tabItem = new TabItem();
+                EditTabControl.Items.Add(tabItem);
+                var tabGrid = new Grid();
+                tabGrid.RowDefinitions.Add(new RowDefinition
                 {
-                    MinWidth = 100,
-                    Width = new GridLength(1, GridUnitType.Auto)
+                    Height = GridLength.Auto
                 });
-
+                tabGrid.RowDefinitions.Add(new RowDefinition());
+                tabItem.Content = tabGrid;
                 var dataGrid = new DataGrid
                 {
                     ItemsSource = relator.Collection,
                     CanUserAddRows = true,
+                    ColumnWidth = new DataGridLength(1, DataGridLengthUnitType.Star),
                     Name = $"DataGrid{columnCount}",
                 };
                 dataGrid.AutoGeneratingColumn += DataGridHelper.OnAutoGeneratingColumn;
 
-                var textBlock = new TextBlock
+                tabItem.Header = relator.Header;
+                var buttonsWrapPanel = new WrapPanel
                 {
-                    Text = relator.Header,
-                    Padding = new Thickness(5, 0, 0, 0)
+                    Orientation = Orientation.Horizontal
+                };
+                tabGrid.Children.Add(dataGrid);
+                tabGrid.Children.Add(buttonsWrapPanel);
+
+                Grid.SetRow(dataGrid, 1);
+
+                var undoButton = new Button
+                {
+                    Command = _viewModel.UndoCommand,
+                    Style = (Style)Application.Current.FindResource("UndoIconButton"),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Background = Brushes.White
+                };
+                var redoButton = new Button
+                {
+                    Command = _viewModel.RedoCommand,
+                    Style = (Style)Application.Current.FindResource("RedoIconButton"),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Background = Brushes.White
+                };
+                var excelButton = new Button
+                {
+                    Command = _viewModel.GenerateExcelCommand,
+                    Style = (Style)Application.Current.FindResource("ExcelIconButton"),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Background = Brushes.White
+                };
+                var pdfButton = new Button
+                {
+                    Command = _viewModel.GeneratePdfCommand,
+                    Style = (Style)Application.Current.FindResource("PdfIconButton"),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Background = Brushes.White
+                };
+                var wordButton = new Button
+                {
+                    Command = _viewModel.GenerateWordCommand,
+                    Style = (Style)Application.Current.FindResource("WordIconButton"),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Background = Brushes.White
                 };
 
-                EditGrid.Children.Add(dataGrid);
-                EditGrid.Children.Add(textBlock);
+                var commandParameterDataGridBinding = new Binding
+                {
+                    Source = dataGrid, // элемент-источник
+                };
 
-                Grid.SetColumn(dataGrid, columnCount);
-                Grid.SetColumn(textBlock, columnCount);
+                excelButton.SetBinding(ButtonBase.CommandParameterProperty, commandParameterDataGridBinding);
+                pdfButton.SetBinding(ButtonBase.CommandParameterProperty, commandParameterDataGridBinding);
+                wordButton.SetBinding(ButtonBase.CommandParameterProperty, commandParameterDataGridBinding);
 
-                Grid.SetRow(textBlock, 0);
-                Grid.SetRow(dataGrid, 2);
+                buttonsWrapPanel.Children.Add(undoButton);
+                buttonsWrapPanel.Children.Add(redoButton);
+                buttonsWrapPanel.Children.Add(excelButton);
+                buttonsWrapPanel.Children.Add(pdfButton);
+                buttonsWrapPanel.Children.Add(wordButton);
 
                 if (relator.EditCommand == null)
                 {
@@ -90,10 +144,7 @@
                     commandParameterBinding); // установка привязки для элемента-приемника
                 //editButton.SetBinding(ButtonBase.IsEnabledProperty, isEnabledBinding);
 
-                EditGrid.Children.Add(editButton);
-                Grid.SetColumn(editButton, columnCount);
-                Grid.SetRow(editButton, 1);
-
+                buttonsWrapPanel.Children.Insert(0, editButton);
                 columnCount++;
             }
         }
