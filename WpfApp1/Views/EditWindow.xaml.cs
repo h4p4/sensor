@@ -123,15 +123,6 @@
                     Mode = BindingMode.TwoWay
                 };
 
-                //TODO:
-                //var isEnabledBinding = new Binding()
-                //{
-                //    Source = dataGrid, // элемент-источник
-                //    Path = new PropertyPath(Selector.IsSelectedProperty),
-                //    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-                //    Mode = BindingMode.TwoWay
-                //};
-
                 var editButton = new Button
                 {
                     Command = relator.EditCommand,
@@ -142,7 +133,6 @@
 
                 editButton.SetBinding(ButtonBase.CommandParameterProperty,
                     commandParameterBinding); // установка привязки для элемента-приемника
-                //editButton.SetBinding(ButtonBase.IsEnabledProperty, isEnabledBinding);
 
                 buttonsWrapPanel.Children.Insert(0, editButton);
                 columnCount++;

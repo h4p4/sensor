@@ -20,18 +20,42 @@
         </Style>-->
     </Window.Resources>
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="{x:Type TabItem}">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsRootSelected, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                        <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="0.5*" MaxHeight="300" />
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0"
                     DataContext="{Binding Path=DataContext.Root, RelativeSource={RelativeSource AncestorType=Window}}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding DataContext.IsRootSelected, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}"
+                            Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.ItemContainerStyle>
             <TabItem Header="Датчики"
-                     DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=Window}}">
+                     DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=Window}}"
+                     Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -42,23 +66,41 @@
                         <Button Style="{StaticResource RemoveDbButton}" Command="{Binding RemoveFromDatabaseCommand}" />
                         <Button Style="{StaticResource SaveDbButton}" Command="{Binding WriteToDatabaseCommand}" />
                         <Button Style="{StaticResource FromJsonButton}" Command="{Binding ReadFromJsonCommand}" />
-                        <WrapPanel Orientation="Horizontal" Height="Auto" 
+                        <WrapPanel Orientation="Horizontal" Height="Auto"
                                    DataContext="{Binding Path=DataContext.Root, RelativeSource={RelativeSource AncestorType=Window}}">
                             <Button Style="{StaticResource ContentSaveIconButton}" Click="ButtonBase_OnClick" />
                             <Button Style="{StaticResource UndoIconButton}" Command="{Binding UndoCommand}" />
                             <Button Style="{StaticResource RedoIconButton}" Command="{Binding RedoCommand}" />
-                            <Button Style="{StaticResource ExcelIconButton}" Command="{Binding GenerateExcelCommand}"
-                                    CommandParameter="{Binding ElementName=RootDataGrid}" />
-                            <Button Style="{StaticResource PdfIconButton}" Command="{Binding GeneratePdfCommand}"
-                                    CommandParameter="{Binding ElementName=RootDataGrid}" />
-                            <Button Style="{StaticResource WordIconButton}" Command="{Binding GenerateWordCommand}"
-                                    CommandParameter="{Binding ElementName=RootDataGrid}" />
+                            <WrapPanel Orientation="Horizontal">
+
+                                <Button Style="{StaticResource ExcelIconButton}"
+                                        Command="{Binding GenerateExcelCommand}"
+                                        CommandParameter="{Binding ElementName=RootDataGrid}" />
+                                <Button Style="{StaticResource PdfIconButton}" Command="{Binding GeneratePdfCommand}"
+                                        CommandParameter="{Binding ElementName=RootDataGrid}" />
+                                <Button Style="{StaticResource WordIconButton}" Command="{Binding GenerateWordCommand}"
+                                        CommandParameter="{Binding ElementName=RootDataGrid}" />
+                            </WrapPanel>
                         </WrapPanel>
                     </WrapPanel>
+                    <Button Grid.Row="0" Grid.Column="2" VerticalAlignment="Top"
+                            Style="{StaticResource SettingsButton}" Command="{Binding OpenSettingsCommand}">
+                        <Button.Resources>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsAdmin}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+
                     <DataGrid ItemsSource="{Binding Roots}"
                               SelectedItem="{Binding Root, UpdateSourceTrigger=PropertyChanged}"
                               Grid.Row="1"
-                              ColumnWidth="*" Grid.ColumnSpan="2"
+                              ColumnWidth="*" Grid.ColumnSpan="3"
                               Grid.Column="0"
                               AutoGenerateColumns="True"
                               CanUserDeleteRows="True"

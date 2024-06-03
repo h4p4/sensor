@@ -11,27 +11,44 @@ namespace WpfApp1.ViewModels
 
     using Newtonsoft.Json;
 
+    using WpfApp1.Views;
+
     public class MainViewModel : ViewModel
     {
         private Root _root;
 
+        public bool IsAdmin => Connection.CurrentUser.IsAdmin;
+
         public MainViewModel()
         {
+            OpenSettingsCommand = new RelayCommand(OpenSettings, _ => IsAdmin);
             ReadFromJsonCommand = new RelayCommand(ReadFromJson);
             WriteToDatabaseCommand = new RelayCommand(WriteToDatabase, CanWriteExecute);
             RemoveFromDatabaseCommand = new RelayCommand(RemoveFromDatabase, CanRemoveExecute);
             Roots = new ObservableCollection<Root>();
         }
 
+        private void OpenSettings(object obj)
+        {
+            new SettingsWindow().ShowDialog();
+        }
+
+        public bool IsRootSelected => Root != null;
+
         public Logger Logger { get; set; } = Logger.Instance;
 
         public ICommand ReadFromJsonCommand { get; }
+        public ICommand OpenSettingsCommand { get; }
         public ICommand RemoveFromDatabaseCommand { get; }
 
         public Root Root
         {
             get => _root;
-            set => SetField(ref _root, value);
+            set
+            {
+                SetField(ref _root, value);
+                OnPropertyChanged(nameof(IsRootSelected));
+            }
         }
 
         public ObservableCollection<Root> Roots { get; set; }
@@ -39,13 +56,13 @@ namespace WpfApp1.ViewModels
 
         private bool CanRemoveExecute(object arg)
         {
-            return Root != null &&
+            return IsRootSelected &&
                    Root.WasSaved;
         }
 
         private bool CanWriteExecute(object arg)
         {
-            return Root != null;
+            return IsRootSelected;
         }
 
         private void ReadFromJson(object obj)

@@ -5,4 +5,4 @@
   <Host>localhost</Host>
   <Password>postgres</Password>
   <Port>5432</Port>
-</ConnectionSettings>s>
+</ConnectionSettings>

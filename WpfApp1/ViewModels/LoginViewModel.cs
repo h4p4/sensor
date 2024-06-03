@@ -9,11 +9,18 @@
 
     public class LoginViewModel : ViewModel
     {
+        private bool _isPasswordSet;
         private string _username;
 
         public LoginViewModel()
         {
             LoginCommand = new RelayCommand(Login);
+        }
+
+        public bool IsPasswordSet
+        {
+            get => _isPasswordSet;
+            set => SetField(ref _isPasswordSet, value);
         }
 
         public ICommand LoginCommand { get; }

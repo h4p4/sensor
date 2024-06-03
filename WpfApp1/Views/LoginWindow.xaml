@@ -6,37 +6,59 @@
         xmlns:local="clr-namespace:WpfApp1.Views"
         xmlns:viewModels="clr-namespace:WpfApp1.ViewModels"
         mc:Ignorable="d"
-        Title="Вход" Height="125" Width="200" ResizeMode="NoResize"
+        Title="Вход" Height="250" Width="300" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <viewModels:LoginViewModel />
     </Window.DataContext>
-    <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel>
-            <StackPanel.Resources>
+        <TextBlock Text="Авторизация" FontWeight="DemiBold" FontSize="18" HorizontalAlignment="Center" />
+        <TextBlock Text="Введите логин" Panel.ZIndex="100" VerticalAlignment="Center" 
+                   Padding="5 0 0 0"
+                   IsHitTestVisible="False">
+            <TextBlock.Resources>
                 <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="Height" Value="19" />
+                    <Setter Property="Grid.Row" Value="1" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=UserNameTextBox}" Value="">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Grid.Row" Value="2" />
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
-            </StackPanel.Resources>
-            <TextBlock Text="Username:" />
-            <TextBlock Text="Password:" />
-        </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="1" Margin="5 0 0 0">
-            <TextBox Text="{Binding Username}" />
-            <PasswordBox x:Name="PasswordBox" />
-        </StackPanel>
+            </TextBlock.Resources>
+        </TextBlock>
+        <TextBox x:Name="UserNameTextBox" Grid.Row="2" Text="{Binding Username}" VerticalContentAlignment="Center" />
+        <TextBlock Text="Введите пароль" Panel.ZIndex="100" VerticalAlignment="Center" 
+                   Padding="5 0 0 0"
+                   IsHitTestVisible="False">
+            <TextBlock.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Grid.Row" Value="4" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPasswordSet}" Value="False">
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Grid.Row" Value="5" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Resources>
+        </TextBlock>
+        <PasswordBox Grid.Row="5" x:Name="PasswordBox" VerticalContentAlignment="Center" PasswordChanged="PasswordBox_OnPasswordChanged"/>
         <Button Command="{Binding LoginCommand}"
                 CommandParameter="{Binding ElementName=PasswordBox}"
-                Grid.Row="1" Content="Вход" Grid.ColumnSpan="2"
-                Grid.Column="0"
+                Grid.Row="6" Content="Войти" Width="80" Height="25" VerticalAlignment="Bottom"
                 IsDefault="True" />
     </Grid>
 </Window>

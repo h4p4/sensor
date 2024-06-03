@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace WpfApp1
+﻿namespace WpfApp1
 {
+    using System.Collections.Generic;
+    using System.ComponentModel;
+
     public partial class User
     {
         public User()
@@ -10,12 +10,20 @@ namespace WpfApp1
             Sensors = new HashSet<Sensor>();
         }
 
-        public int UserId { get; set; }
-        public bool IsAdmin { get; set; }
+        public virtual ICollection<Sensor> Sensors { get; set; }
+
+        [DisplayName("Отображаемое имя")]
         public string UserDisplayname { get; set; }
+
+        public int UserId { get; set; }
+
+        [DisplayName("Логин")]
         public string Username { get; set; }
+
+        [DisplayName("Пароль")]
         public string UserPassword { get; set; }
 
-        public virtual ICollection<Sensor> Sensors { get; set; }
+        [DisplayName("Администратор")]
+        public bool IsAdmin { get; set; }
     }
 }
