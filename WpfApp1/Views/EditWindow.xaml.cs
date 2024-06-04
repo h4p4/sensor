@@ -60,14 +60,14 @@
 
                 var undoButton = new Button
                 {
-                    Command = _viewModel.UndoCommand,
+                    Command = EditableViewModel.UndoCommand,
                     Style = (Style)Application.Current.FindResource("UndoIconButton"),
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Background = Brushes.White
                 };
                 var redoButton = new Button
                 {
-                    Command = _viewModel.RedoCommand,
+                    Command = EditableViewModel.RedoCommand,
                     Style = (Style)Application.Current.FindResource("RedoIconButton"),
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Background = Brushes.White

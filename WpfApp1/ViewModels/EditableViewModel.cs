@@ -27,15 +27,19 @@
     public abstract class EditableViewModel : ViewModel
     {
         private bool _isEditing;
-        private bool _isRedoProcess;
-        private bool _isUndoProcess;
-        private Stack<(object Obj, string Prop, object OldValue)> _redoHistory;
-        private Stack<(object Obj, string Prop, object OldValue)> _undoHistory;
+        private static bool _isRedoProcess;
+        private static bool _isUndoProcess;
+        private static Stack<(object Obj, string Prop, object OldValue)> _redoHistory;
+        private static Stack<(object Obj, string Prop, object OldValue)> _undoHistory;
 
-        public EditableViewModel()
+        static EditableViewModel()
         {
             _redoHistory = new Stack<(object Obj, string Prop, object OldValue)>();
             _undoHistory = new Stack<(object Obj, string Prop, object OldValue)>();
+        }
+
+        public EditableViewModel()
+        {
             UndoCommand = new DelegateCommand(_ => Undo(), _ => _undoHistory.Count > 0);
             RedoCommand = new DelegateCommand(_ => Redo(), _ => _redoHistory.Count > 0);
             ClearHistoryCommand = new DelegateCommand(_ => ClearHistory());
@@ -66,13 +70,13 @@
         }
 
         [JsonIgnore]
-        public DelegateCommand RedoCommand { get; set; }
+        public static DelegateCommand RedoCommand { get; set; }
 
         [JsonIgnore]
         public RelayCommand StartEditCommand { get; }
 
         [JsonIgnore]
-        public DelegateCommand UndoCommand { get; set; }
+        public static DelegateCommand UndoCommand { get; set; }
 
         public static DataTable DataGridToDataTable(DataGrid dg)
         {
@@ -331,7 +335,7 @@
             return false;
         }
 
-        private void Redo()
+        private static void Redo()
         {
             if (_redoHistory.Count == 0)
                 return;
@@ -348,7 +352,7 @@
             }
         }
 
-        private void SaveHistory(object obj, string propertyName, object value)
+        private static void SaveHistory(object obj, string propertyName, object value)
         {
             if (!Logger.Instance.IsEnabled)
                 return;
@@ -378,7 +382,7 @@
             }
         }
 
-        private void Undo()
+        private static void Undo()
         {
             if (_undoHistory.Count == 0)
                 return;
